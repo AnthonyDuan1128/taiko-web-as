@@ -697,7 +697,7 @@ class SongSelect {
 			} else if (moveBy === 2) {
 				this.toDownload()
 			} else if (moveBy === 3) {
-				this.toDelete()
+				this.toLeaderboard()
 			} else if (moveBy === 1) {
 				this.toOptions(1)
 			} else if (moveBy === "maker") {
