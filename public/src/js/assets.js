@@ -34,6 +34,7 @@ var assets = {
 		"settings.js",
 		"scorestorage.js",
 		"playstats.js",
+		"leaderboard.js",
 		"account.js",
 		"lyrics.js",
 		"customsongs.js",

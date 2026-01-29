@@ -452,6 +452,55 @@ var translations = {
 		tw: "本週最高分",
 		ko: "주간 최고 점수"
 	},
+	leaderboard: {
+		ja: "得点ランキング",
+		en: "Leaderboard",
+		cn: "得分排名",
+		tw: "得分排名",
+		ko: "점수 순위"
+	},
+	leaderboardTitle: {
+		ja: "「%s」最高得点の持ち主",
+		en: "Top scores for「%s」",
+		cn: "拥有《%s》最高分的用户",
+		tw: "擁有《%s》最高分的用戶",
+		ko: "「%s」 최고 점수 보유자"
+	},
+	rank: {
+		ja: "順位",
+		en: "Rank",
+		cn: "排名",
+		tw: "排名",
+		ko: "순위"
+	},
+	noScores: {
+		ja: "まだ記録がありません",
+		en: "No scores yet",
+		cn: "暂无记录",
+		tw: "暫無記錄",
+		ko: "아직 기록이 없습니다"
+	},
+	yourRank: {
+		ja: "あなたの順位",
+		en: "Your Rank",
+		cn: "您的排名",
+		tw: "您的排名",
+		ko: "당신의 순위"
+	},
+	enterName: {
+		ja: "ランキングに登録する名前を入力してください",
+		en: "Enter your name for leaderboard:",
+		cn: "请输入排行榜显示的名字：",
+		tw: "請輸入排行榜顯示的名字：",
+		ko: "순위표에 표시될 이름을 입력하세요:"
+	},
+	notInTop100: {
+		ja: "トップ100には入っていません",
+		en: "Not in top 100",
+		cn: "未进入前100名",
+		tw: "未進入前100名",
+		ko: "상위 100위에 진입하지 못했습니다"
+	},
 
 	errorOccured: {
 		ja: "エラーが発生しました。再読み込みしてください。",

@@ -956,8 +956,46 @@ class Scoresheet {
 				this.resultsObj.points,
 				this.controller.autoPlayEnabled
 			)
+			// Submit to leaderboard (only if not auto-play)
+			if (!this.controller.autoPlayEnabled) {
+				this.submitToLeaderboard(hash, difficulty, this.resultsObj.points)
+			}
 		}
 		this.scoreSaved = true
+	}
+
+	submitToLeaderboard(hash, difficulty, score) {
+		// Prompt user for name
+		var savedName = localStorage.getItem("leaderboardName") || ""
+		var displayName = prompt(strings.enterName || "Enter your name for leaderboard:", savedName)
+
+		if (displayName === null) {
+			displayName = "Anonymous"
+		}
+		displayName = displayName.trim().slice(0, 20) || "Anonymous"
+		localStorage.setItem("leaderboardName", displayName)
+
+		fetch("api/leaderboard/submit", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				hash: hash,
+				difficulty: difficulty,
+				score: score,
+				display_name: displayName
+			})
+		}).then(response => response.json())
+			.then(data => {
+				if (data.status === "ok") {
+					var rankMsg = ""
+					if (data.in_top_100) {
+						rankMsg = (strings.yourRank || "Your Rank") + ": #" + data.rank + " 🎉"
+					} else {
+						rankMsg = (strings.notInTop100 || "Not in top 100")
+					}
+					alert(rankMsg)
+				}
+			}).catch(e => console.error("Leaderboard submit failed:", e))
 	}
 
 	clean() {

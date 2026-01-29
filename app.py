@@ -108,6 +108,8 @@ db.songs.create_index('song_type')
 db.scores.create_index('username')
 db.play_records.create_index('song_hash')
 db.play_records.create_index('played_at')
+db.leaderboard.create_index([('song_hash', 1), ('difficulty', 1), ('score_value', -1)])
+db.leaderboard.create_index('username')
 
 
 class HashException(Exception):
@@ -795,6 +797,100 @@ def route_api_playcount_get():
         'status': 'ok',
         'play_count': play_count,
         'weekly_high_score': weekly_high_score
+    })
+
+
+@app.route(basedir + 'api/leaderboard/submit', methods=['POST'])
+def route_api_leaderboard_submit():
+    data = request.get_json()
+    if not data:
+        return abort(400)
+    
+    song_hash = data.get('hash')
+    difficulty = data.get('difficulty')
+    score_value = data.get('score', 0)
+    display_name = data.get('display_name', 'Anonymous')
+    
+    if not song_hash or not difficulty:
+        return abort(400)
+    
+    if not display_name or not display_name.strip():
+        display_name = 'Anonymous'
+    
+    # Get current month for monthly reset
+    current_month = datetime.utcnow().strftime('%Y-%m')
+    
+    # Insert new score (allow duplicate names)
+    result = db.leaderboard.insert_one({
+        'song_hash': song_hash,
+        'difficulty': difficulty,
+        'display_name': display_name.strip()[:20],  # Limit name length
+        'score_value': score_value,
+        'month': current_month,
+        'created_at': datetime.utcnow()
+    })
+    
+    # Calculate rank
+    higher_count = db.leaderboard.count_documents({
+        'song_hash': song_hash,
+        'difficulty': difficulty,
+        'month': current_month,
+        'score_value': {'$gt': score_value}
+    })
+    rank = higher_count + 1
+    
+    # Keep only top 100 per song/difficulty/month
+    all_scores = list(db.leaderboard.find({
+        'song_hash': song_hash,
+        'difficulty': difficulty,
+        'month': current_month
+    }).sort('score_value', -1).skip(100))
+    
+    if all_scores:
+        ids_to_delete = [s['_id'] for s in all_scores]
+        db.leaderboard.delete_many({'_id': {'$in': ids_to_delete}})
+    
+    return jsonify({
+        'status': 'ok',
+        'rank': rank,
+        'in_top_100': rank <= 100
+    })
+
+
+@app.route(basedir + 'api/leaderboard/get')
+def route_api_leaderboard_get():
+    song_hash = request.args.get('hash')
+    difficulty = request.args.get('difficulty')
+    
+    if not song_hash:
+        return abort(400)
+    
+    # Get current month for monthly leaderboard
+    current_month = datetime.utcnow().strftime('%Y-%m')
+    
+    query = {
+        'song_hash': song_hash,
+        'month': current_month
+    }
+    if difficulty:
+        query['difficulty'] = difficulty
+    
+    # Get top 100 scores
+    scores = list(db.leaderboard.find(query).sort('score_value', -1).limit(100))
+    
+    result = []
+    for i, score in enumerate(scores):
+        result.append({
+            'rank': i + 1,
+            'display_name': score.get('display_name', 'Anonymous'),
+            'score_value': score.get('score_value', 0),
+            'difficulty': score.get('difficulty')
+        })
+    
+    return jsonify({
+        'status': 'ok',
+        'leaderboard': result,
+        'month': current_month
     })
 
 

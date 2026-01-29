@@ -310,6 +310,12 @@ class SongSelect {
 			iconName: "download",
 			iconFill: "#e7cbe1",
 			letterSpacing: 4
+		}, {
+			text: strings.leaderboard,
+			fill: "#ffd700",
+			iconName: "leaderboard",
+			iconFill: "#fff4b3",
+			letterSpacing: 2
 		}]
 		this.optionsList = [strings.none, strings.auto, strings.netplay]
 
@@ -586,7 +592,7 @@ class SongSelect {
 				} else if (this.selectedDiff === 2) {
 					this.toDownload()
 				} else if (this.selectedDiff === 3) {
-					this.toDelete()
+					this.toLeaderboard()
 				} else if (this.selectedDiff === 1) {
 					this.toOptions(1)
 				} else {
@@ -3240,6 +3246,21 @@ class SongSelect {
 		delete this.selectable
 		delete this.ctx
 		delete this.canvas
+	}
+
+	toLeaderboard() {
+		var song = this.songs[this.selectedSong]
+		if (!song || song.action) return
+
+		var songHash = song.hash || song.id
+		var songTitle = song.title || ""
+		// Default to showing leaderboard without difficulty filter (show all)
+		var difficulty = ""
+
+		if (typeof leaderboard !== "undefined") {
+			leaderboard.show(songHash, songTitle, difficulty)
+			this.playSound("se_don", 0)
+		}
 	}
 
 	toDownload() {
