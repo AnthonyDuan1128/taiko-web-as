@@ -3226,6 +3226,9 @@ class SongSelect {
 	}
 
 	clean() {
+		if (this.loadQueue) {
+			this.loadQueue.cancelAll()
+		}
 		this.keyboard.clean()
 		this.gamepad.clean()
 		this.clearHash()

@@ -22,6 +22,10 @@ class LoadQueue {
             }
         }
     }
+    cancelAll() {
+        this.queue.forEach(task => task.cancelled = true)
+        this.queue = []
+    }
     run() {
         if (this.running >= this.maxRunning || this.queue.length === 0) {
             return
