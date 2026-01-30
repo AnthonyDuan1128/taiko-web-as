@@ -2235,7 +2235,7 @@ class SongSelect {
 					var stats = playStats.cache[currentSong.hash]
 					if (stats) {
 						var _x = x + 62
-						var _y = y + 470
+						var _y = y + 380
 						ctx.strokeStyle = "#000"
 						ctx.lineWidth = 3
 						ctx.fillStyle = "#e8f4f8"

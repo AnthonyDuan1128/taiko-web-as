@@ -34,11 +34,16 @@ class Leaderboard {
 		// Add styles
 		this.addStyles()
 
-		// Bind events
-		this.overlay.querySelector(".leaderboard-back").addEventListener("click", () => this.hide())
-		this.overlay.addEventListener("click", (e) => {
-			if (e.target === this.overlay) this.hide()
-		})
+		// Bind events - any click/touch/keypress closes the leaderboard
+		this.clickHandler = () => this.hide()
+		this.keyHandler = (e) => {
+			if (this.visible) {
+				this.hide()
+			}
+		}
+		this.overlay.addEventListener("click", this.clickHandler)
+		this.overlay.addEventListener("touchend", this.clickHandler)
+		document.addEventListener("keydown", this.keyHandler)
 
 		// Fetch data
 		await this.fetchData()
@@ -100,6 +105,10 @@ class Leaderboard {
 		if (this.overlay) {
 			this.overlay.remove()
 			this.overlay = null
+		}
+		if (this.keyHandler) {
+			document.removeEventListener("keydown", this.keyHandler)
+			this.keyHandler = null
 		}
 		this.visible = false
 	}
