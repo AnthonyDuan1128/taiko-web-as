@@ -845,6 +845,10 @@ class Scoresheet {
 				if (this.state.screen === "fadeIn" && elapsed >= this.state.fadeInEnd) {
 					this.state.screen = "scoresShown"
 					this.state.screenMS = this.getMS()
+					// Show share buttons (only for non-auto play and single player)
+					if (!this.controller.autoPlayEnabled && !this.multiplayer && !this.shareButtonsCreated) {
+						this.createShareButtons()
+					}
 				}
 			}
 			ctx.restore()
@@ -1016,10 +1020,66 @@ class Scoresheet {
 		if (!this.multiplayer) {
 			delete this.tetsuoHana
 		}
+		if (this.shareButtons) {
+			this.shareButtons.remove()
+			delete this.shareButtons
+		}
 		delete this.ctx
 		delete this.canvas
 		delete this.fadeScreen
 		delete this.results
 		delete this.rules
+	}
+
+	createShareButtons() {
+		this.shareButtonsCreated = true
+		this.shareButtons = document.createElement("div")
+		this.shareButtons.id = "share-buttons"
+		this.shareButtons.style.setProperty("--scale", this.ratio / this.pixelRatio)
+
+		// X (Twitter) button
+		var xBtn = document.createElement("button")
+		xBtn.className = "share-x"
+		xBtn.title = strings.shareToX
+		xBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+		xBtn.onclick = () => this.shareToX()
+		this.shareButtons.appendChild(xBtn)
+
+		// Facebook button
+		var fbBtn = document.createElement("button")
+		fbBtn.className = "share-facebook"
+		fbBtn.title = strings.shareToFacebook
+		fbBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>'
+		fbBtn.onclick = () => this.shareToFacebook()
+		this.shareButtons.appendChild(fbBtn)
+
+		this.game.appendChild(this.shareButtons)
+	}
+
+	getShareText() {
+		var title = this.results[this.player[0]].title
+		var points = this.results[this.player[0]].points
+		var template = strings.shareText
+		// Format: Japanese uses title first, others use points first for English
+		if (strings.id === "ja") {
+			return template.replace("%s", title).replace("%s", points)
+		} else if (strings.id === "cn" || strings.id === "tw") {
+			return template.replace("%s", title).replace("%s", points)
+		} else {
+			// en, ko: points first, then title
+			return template.replace("%s", points).replace("%s", title)
+		}
+	}
+
+	shareToX() {
+		var text = this.getShareText() + " https://taiko.asia"
+		var url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text)
+		window.open(url, "_blank", "width=600,height=400")
+	}
+
+	shareToFacebook() {
+		var text = this.getShareText()
+		var url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent("https://taiko.asia") + "&quote=" + encodeURIComponent(text)
+		window.open(url, "_blank", "width=600,height=400")
 	}
 }

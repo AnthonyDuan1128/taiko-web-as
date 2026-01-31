@@ -502,6 +502,28 @@ var translations = {
 		ko: "상위 100위에 진입하지 못했습니다"
 	},
 
+	shareToX: {
+		ja: "Xでシェア",
+		en: "Share to X",
+		cn: "分享到X",
+		tw: "分享到X",
+		ko: "X에 공유"
+	},
+	shareToFacebook: {
+		ja: "Facebookでシェア",
+		en: "Share to Facebook",
+		cn: "分享到Facebook",
+		tw: "分享到Facebook",
+		ko: "Facebook에 공유"
+	},
+	shareText: {
+		ja: "🎵「%s」で%s点を獲得！🥁 今すぐプレイ:",
+		en: "🎵 I scored %s pts playing \"%s\" on Taiko Web! 🥁 Play now:",
+		cn: "🎵 我在《%s》获得了%s分！🥁 立即游玩:",
+		tw: "🎵 我在《%s》獲得了%s分！🥁 立即遊玩:",
+		ko: "🎵 \"%s\"에서 %s점 달성! 🥁 지금 플레이:"
+	},
+
 	errorOccured: {
 		ja: "エラーが発生しました。再読み込みしてください。",
 		en: "An error occurred, please refresh",
