@@ -168,8 +168,8 @@
 /* Share buttons on scoresheet */
 #share-buttons {
 	position: absolute;
-	bottom: calc(20px * var(--scale, 1));
-	right: calc(20px * var(--scale, 1));
+	bottom: calc(50px * var(--scale, 1));
+	right: calc(30px * var(--scale, 1));
 	display: flex;
 	gap: calc(12px * var(--scale, 1));
 	z-index: 10;
