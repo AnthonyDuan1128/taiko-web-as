@@ -168,8 +168,9 @@
 /* Share buttons on scoresheet */
 #share-buttons {
 	position: absolute;
-	bottom: calc(50px * var(--scale, 1));
-	right: calc(30px * var(--scale, 1));
+	/* Position below drumroll stats (y: 285 from top of stats area) */
+	top: calc(50% + 60px * var(--scale, 1));
+	right: calc((100vw - 1280 / 720 * 100vh) / 2 + 560px * var(--scale, 1));
 	display: flex;
 	gap: calc(12px * var(--scale, 1));
 	z-index: 10;

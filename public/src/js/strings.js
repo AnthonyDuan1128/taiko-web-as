@@ -501,6 +501,27 @@ var translations = {
 		tw: "未進入前100名",
 		ko: "상위 100위에 진입하지 못했습니다"
 	},
+	popularityRanking: {
+		ja: "人気ランキング",
+		en: "Popularity Ranking",
+		cn: "热度排行榜",
+		tw: "熱度排行榜",
+		ko: "인기 순위"
+	},
+	popularityRankingTitle: {
+		ja: "歌曲人気ランキング",
+		en: "Song Popularity Ranking",
+		cn: "歌曲热度排行榜",
+		tw: "歌曲熱度排行榜",
+		ko: "곡 인기 순위"
+	},
+	plays: {
+		ja: "回プレイ",
+		en: "plays",
+		cn: "次游玩",
+		tw: "次遊玩",
+		ko: "회 플레이"
+	},
 
 	shareToX: {
 		ja: "Xでシェア",

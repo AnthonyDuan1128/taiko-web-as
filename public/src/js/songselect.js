@@ -316,6 +316,12 @@ class SongSelect {
 			iconName: "leaderboard",
 			iconFill: "#fff4b3",
 			letterSpacing: 2
+		}, {
+			text: strings.popularityRanking,
+			fill: "#ff6b9d",
+			iconName: "popularity",
+			iconFill: "#ffb6d1",
+			letterSpacing: 2
 		}]
 		this.optionsList = [strings.none, strings.auto, strings.netplay]
 
@@ -593,6 +599,8 @@ class SongSelect {
 					this.toDownload()
 				} else if (this.selectedDiff === 3) {
 					this.toLeaderboard()
+				} else if (this.selectedDiff === 4) {
+					this.toPopularityRanking()
 				} else if (this.selectedDiff === 1) {
 					this.toOptions(1)
 				} else {
@@ -3259,6 +3267,13 @@ class SongSelect {
 
 		if (typeof leaderboard !== "undefined") {
 			leaderboard.show(songHash, songTitle, difficulty)
+			this.playSound("se_don", 0)
+		}
+	}
+
+	toPopularityRanking() {
+		if (typeof popularityRanking !== "undefined") {
+			popularityRanking.show()
 			this.playSound("se_don", 0)
 		}
 	}

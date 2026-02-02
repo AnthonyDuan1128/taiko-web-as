@@ -894,6 +894,39 @@ def route_api_leaderboard_get():
     })
 
 
+@app.route(basedir + 'api/popularity/ranking')
+def route_api_popularity_ranking():
+    """Get song popularity ranking based on total play counts."""
+    limit = request.args.get('limit', 50, type=int)
+    
+    # Aggregate play counts per song
+    pipeline = [
+        {'$group': {'_id': '$song_hash', 'play_count': {'$sum': 1}}},
+        {'$sort': {'play_count': -1, '_id': 1}}
+    ]
+    
+    play_counts = list(db.play_records.aggregate(pipeline))
+    
+    # Get song info for each hash
+    result = []
+    for item in play_counts:
+        song_hash = item['_id']
+        song = db.songs.find_one({'hash': song_hash})
+        if song:
+            result.append({
+                'hash': song_hash,
+                'title': song.get('title', 'Unknown'),
+                'play_count': item['play_count']
+            })
+    
+    # Sort by play_count desc, then by title asc for tie-breaking (no duplicate scores)
+    result.sort(key=lambda x: (-x['play_count'], x['title']))
+    
+    return jsonify({
+        'status': 'ok',
+        'ranking': result[:limit]
+    })
+
 @app.route(basedir + 'privacy')
 def route_api_privacy():
     last_modified = time.strftime('%d %B %Y', time.gmtime(os.path.getmtime('templates/privacy.txt')))
