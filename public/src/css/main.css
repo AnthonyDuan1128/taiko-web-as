@@ -1,4 +1,4 @@
-.window{
+.window {
 	width: 60vmin;
 	height: 23vmin;
 	padding: 3vmin;
@@ -16,14 +16,16 @@
 	flex-direction: column;
 	justify-content: space-between;
 }
-.stroke-sub::before{
+
+.stroke-sub::before {
 	content: attr(alt);
 	position: absolute;
 	-webkit-text-stroke: 0.25em #000;
 	left: 0;
 	z-index: -1;
 }
-#session-invite{
+
+#session-invite {
 	width: 100%;
 	height: 1.9em;
 	font-family: sans-serif;
@@ -38,15 +40,18 @@
 	cursor: text;
 	overflow: hidden;
 }
-@keyframes bgscroll{
-	from{
+
+@keyframes bgscroll {
+	from {
 		background-position: 50% top;
 	}
-	to{
+
+	to {
 		background-position: calc(50% - 100vh / 720 * 512) top;
 	}
 }
-#song-select{
+
+#song-select {
 	width: 100%;
 	height: 100%;
 	background-size: calc(100vh / 720 * 512);
@@ -55,16 +60,19 @@
 	white-space: nowrap;
 	transition: background-image 0.5s;
 }
-#song-select.unfocused{
+
+#song-select.unfocused {
 	animation-play-state: paused;
 }
-#song-sel-canvas{
+
+#song-sel-canvas {
 	position: absolute;
 	right: 0;
 	left: 0;
 	margin: auto;
 }
-#song-select #touch-full-btn{
+
+#song-select #touch-full-btn {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -75,7 +83,8 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 }
-#song-sel-selectable{
+
+#song-sel-selectable {
 	position: absolute;
 	opacity: 1;
 	text-align: center;
@@ -85,18 +94,22 @@
 	cursor: text;
 	color: transparent;
 }
-#song-sel-selectable:focus{
+
+#song-sel-selectable:focus {
 	background: #ffdb2c;
 	color: #000;
 }
-#song-sel-selectable .stroke-sub{
+
+#song-sel-selectable .stroke-sub {
 	position: absolute;
 	z-index: 1;
 }
-#song-sel-selectable .stroke-sub::before{
+
+#song-sel-selectable .stroke-sub::before {
 	-webkit-text-stroke: 0;
 }
-#song-sel-selectable:focus .stroke-sub::before{
+
+#song-sel-selectable:focus .stroke-sub::before {
 	-webkit-text-stroke: 0.25em #fff;
 }
 
@@ -108,14 +121,15 @@
 	bottom: 1vh;
 	right: 1vh;
 	opacity: 0.7;
-	font-family: TnT, Meiryo, sans-serif;
+	font-family: inherit;
 	pointer-events: none;
 }
-#version:hover{
+
+#version:hover {
 	opacity: 1;
 }
 
-#version-link{
+#version-link {
 	color: #FFFFFF;
 	text-decoration: none;
 	pointer-events: none;
@@ -123,6 +137,6 @@
 	word-break: break-word;
 }
 
-.version-hide{
-    pointer-events: none;
+.version-hide {
+	pointer-events: none;
 }

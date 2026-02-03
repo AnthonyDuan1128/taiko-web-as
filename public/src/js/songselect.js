@@ -1966,7 +1966,7 @@ class SongSelect {
 								height: songSel ? 160 : 170,
 								fill: songSel && !currentUra ? "#c85200" : "#fff",
 								fontSize: songSel ? 25 : 27,
-								fontFamily: songSel ? "Meiryo, Microsoft YaHei, sans-serif" : this.font,
+								fontFamily: this.font,
 								outline: songSel ? false : "#f22666",
 								outlineSize: songSel ? 0 : this.songAsset.letterBorder
 							})

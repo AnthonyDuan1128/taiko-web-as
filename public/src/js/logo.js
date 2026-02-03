@@ -1,12 +1,12 @@
-﻿class Logo{
-	constructor(...args){
+﻿class Logo {
+	constructor(...args) {
 		this.init(...args)
 	}
-	init(){
+	init() {
 		this.canvas = document.getElementById("logo")
 		this.ctx = this.canvas.getContext("2d")
 		this.pathSvg = failedTests.indexOf("Path2D SVG") === -1 && vectors.logo1
-		this.symbolFont = "TnT, Meiryo, sans-serif"
+		this.symbolFont = "TnT, " + strings.font
 		this.symbols = [{
 			x: 315, y: 18, xAlt: 15, scale: true, text: "ブ",
 			path: new Path2D(vectors.logo5)
@@ -26,24 +26,24 @@
 		}]
 		pageEvents.add(window, "resize", this.update.bind(this))
 	}
-	updateSubtitle(){
+	updateSubtitle() {
 		this.subtitleGradient = ["#df600d", "#d8446f", "#b2147b", "#428ac2", "#1f9099"]
 		this.subtitle = []
 		this.subtitleW = 0
 		var index = 0
 		var latinLowercase = /[a-z]/
-		for(var i = 0; i < strings.taikoWeb.length; i++){
+		for (var i = 0; i < strings.taikoWeb.length; i++) {
 			var letter = strings.taikoWeb[i]
 			var width = 57
-			if(letter === "ェ"){
+			if (letter === "ェ") {
 				width = 40
-			}else if(letter === " "){
+			} else if (letter === " ") {
 				width = 20
-			}else if(letter === "i"){
+			} else if (letter === "i") {
 				width = 22
-			}else if(letter === "T"){
+			} else if (letter === "T") {
 				width = 30
-			}else if(latinLowercase.test(letter)){
+			} else if (latinLowercase.test(letter)) {
 				width = 38
 			}
 			this.subtitle.push({
@@ -55,10 +55,10 @@
 		}
 		this.update()
 	}
-	update(){
+	update() {
 		var ctx = this.ctx
 		ctx.save()
-		
+
 		this.width = 1170
 		this.height = 390
 		var pixelRatio = window.devicePixelRatio || 1
@@ -67,16 +67,16 @@
 		this.canvas.width = Math.max(1, winW)
 		this.canvas.height = Math.max(1, winH)
 		ctx.scale(winW / this.width, winH / this.height)
-		
+
 		ctx.lineJoin = "round"
 		ctx.miterLimit = 1
 		ctx.textBaseline = "top"
 		ctx.textAlign = "center"
-		if(!this.pathSvg){
+		if (!this.pathSvg) {
 			ctx.font = "100px " + this.symbolFont
 		}
-		
-		for(var i = 0; i < this.symbols.length; i++){
+
+		for (var i = 0; i < this.symbols.length; i++) {
 			ctx.strokeStyle = "#3f0406"
 			ctx.lineWidth = 13.5
 			this.drawSymbol(this.symbols[i], "stroke", 4)
@@ -87,13 +87,13 @@
 			ctx.strokeStyle = "#3f0406"
 			ctx.strokeText(letter, x, 315)
 		})
-		if(this.pathSvg){
+		if (this.pathSvg) {
 			ctx.fillStyle = "#3f0406"
 			ctx.fillRect(400, 180, 30, 50)
-		}else{
+		} else {
 			ctx.font = "100px " + this.symbolFont
 		}
-		for(var i = 0; i < this.symbols.length; i++){
+		for (var i = 0; i < this.symbols.length; i++) {
 			var symbol = this.symbols[i]
 			ctx.strokeStyle = "#7c361e"
 			ctx.lineWidth = 13.5
@@ -101,7 +101,7 @@
 			ctx.strokeStyle = "#fff"
 			ctx.lineWidth = 7.5
 			this.drawSymbol(symbol, "stroke")
-			if(this.pathSvg){
+			if (this.pathSvg) {
 				var grd = ctx.createLinearGradient(0, 55 - symbol.y, 0, 95 - symbol.y)
 				grd.addColorStop(0, "#a41f1e")
 				grd.addColorStop(1, "#a86a29")
@@ -116,22 +116,22 @@
 			grd.addColorStop(0, "#d80e11")
 			grd.addColorStop(1, "#e08f19")
 			ctx.fillStyle = grd
-			if(this.pathSvg){
+			if (this.pathSvg) {
 				ctx.translate(3, 2)
 				ctx.fill(symbol.shadow || symbol.path)
 				ctx.restore()
-			}else{
+			} else {
 				this.drawSymbol(symbol, "fill")
 			}
 		}
-		if(this.pathSvg){
+		if (this.pathSvg) {
 			ctx.fillStyle = "#fff"
 			ctx.fillRect(382, 85, 30, 15)
 			ctx.fillRect(402, 145, 15, 15)
-		}else{
+		} else {
 			ctx.font = this.bold(strings.font) + "55px " + strings.font
 		}
-		
+
 		this.subtitleIterate((letter, x) => {
 			ctx.lineWidth = strings.id === "en" ? 19 : 18.5
 			ctx.strokeStyle = "#7c361e"
@@ -144,36 +144,36 @@
 			ctx.strokeText(letter, x, 305)
 			ctx.fillText(letter, x, 305)
 		})
-		
+
 		ctx.restore()
 	}
-	drawSymbol(symbol, action, y){
+	drawSymbol(symbol, action, y) {
 		var ctx = this.ctx
 		ctx.save()
 		ctx.scale((symbol.scale || !this.pathSvg && symbol.scaleAlt) ? 2.8 : 3.2, 3.2)
 		ctx.translate(symbol.x, symbol.y + (y || 0))
-		if(this.pathSvg){
+		if (this.pathSvg) {
 			ctx[action](symbol.path)
-		}else{
+		} else {
 			ctx[action + "Text"](symbol.text, 30 + (symbol.xAlt || 0), -4 + (symbol.yAlt || 0))
 		}
 		ctx.restore()
 	}
-	subtitleIterate(func){
-		for(var i = this.subtitle.length; i--;){
+	subtitleIterate(func) {
+		for (var i = this.subtitle.length; i--;) {
 			var subtitleObj = this.subtitle[i]
 			var x = (this.width - this.subtitleW) / 2 + subtitleObj.x
 			func(subtitleObj.letter, x, subtitleObj.index)
 		}
 	}
-	getSubtitleGradient(index){
+	getSubtitleGradient(index) {
 		var sign = 1
 		var position = 0
 		var length = this.subtitleGradient.length - 1
-		while(index >= 0){
-			if(sign === 1){
+		while (index >= 0) {
+			if (sign === 1) {
 				position = index % length
-			}else{
+			} else {
 				position = length - (index % length)
 			}
 			sign *= -1
@@ -181,10 +181,10 @@
 		}
 		return this.subtitleGradient[position]
 	}
-	bold(font){
+	bold(font) {
 		return font === "Microsoft YaHei, sans-serif" ? "bold " : ""
 	}
-	clean(){
+	clean() {
 		pageEvents.remove(window, "resize")
 		delete this.symbols
 		delete this.ctx

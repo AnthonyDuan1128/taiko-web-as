@@ -1,17 +1,17 @@
 #song-search-container {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0,0,0,0.5);
-	z-index: 2;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 21px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
 }
 
 #song-search {
@@ -30,51 +30,53 @@
     background-position: 0%, -2%;
 }
 
-#song-search-container.touch-enabled{
-	font-size: calc(3 * var(--vmin, 1vmin));
+#song-search-container.touch-enabled {
+    font-size: calc(3 * var(--vmin, 1vmin));
 }
-@media (max-width: 950px){
-	#song-search-container:not(.touch-enabled){
-		font-size: calc(3 * var(--vmin, 1vmin));
-	}
+
+@media (max-width: 950px) {
+    #song-search-container:not(.touch-enabled) {
+        font-size: calc(3 * var(--vmin, 1vmin));
+    }
 }
-@media (max-height: 650px){
-	#song-search-container:not(.touch-enabled){
-		font-size: calc(2 * var(--vmin, 1vmin));
-	}
+
+@media (max-height: 650px) {
+    #song-search-container:not(.touch-enabled) {
+        font-size: calc(2 * var(--vmin, 1vmin));
+    }
 }
 
 #song-search-input {
-	width: 100%;
-	font-size: 1.8em;
-	padding: 0.5em 0.7em;
-	border-radius: 0.2em;
-	border: 0.13em black solid;
-	font-family: inherit;
-	box-sizing: border-box;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing: border-box;
-	outline: none;
+    width: 100%;
+    font-size: 1.8em;
+    padding: 0.5em 0.7em;
+    border-radius: 0.2em;
+    border: 0.13em black solid;
+    font-family: inherit;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
 }
 
 #song-search-input:focus {
-	border-color: #fff923;
+    border-color: #fff923;
 }
 
 #song-search-results {
-	margin-top: 0.5em;
-	overflow-y: scroll;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+    margin-top: 0.5em;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     scroll-behavior: smooth;
 }
 
 #song-search-results::-webkit-scrollbar {
-	display: none;
+    display: none;
 }
 
 .song-search-result {
-	display: flex;
+    display: flex;
     height: 3.2em;
     margin: 0.2em;
     padding: 0.7em;
@@ -82,15 +84,15 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-	border: 0.3em black solid;
-	position: relative;
-	--course-width: min(3em, calc(7 * var(--vmin, 1vmin)));
-	content-visibility: auto;
-	contain-intrinsic-size: 1px 3.2em;
+    border: 0.3em black solid;
+    position: relative;
+    --course-width: min(3em, calc(7 * var(--vmin, 1vmin)));
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 3.2em;
 }
 
 .song-search-result::before {
-	display: block;
+    display: block;
     position: absolute;
     content: '';
     height: 100%;
@@ -106,24 +108,24 @@
 }
 
 .song-search-result-info {
-	font-size: 1.2em;
-	padding: 0.3em 0.3em 0.3em 0.5em;
-	text-align: left;
-	z-index: 0;
-	position: relative;
+    font-size: 1.2em;
+    padding: 0.3em 0.3em 0.3em 0.5em;
+    text-align: left;
+    z-index: 0;
+    position: relative;
     white-space: nowrap;
-	overflow-x: hidden;
-	width: calc(100% - (var(--course-width) + 0.4em) * 5 - 0.6em);
+    overflow-x: hidden;
+    width: calc(100% - (var(--course-width) + 0.4em) * 5 - 0.6em);
 }
 
 .song-search-result-info .highlighted-text {
-	color: #faff00;
+    color: #faff00;
 }
 
 .song-search-result-title,
 .song-search-result-subtitle {
-	display: inline-block;
-	transform-origin: left;
+    display: inline-block;
+    transform-origin: left;
 }
 
 .song-search-result-subtitle {
@@ -145,17 +147,17 @@
     margin: 0.2em;
     font-size: 1.2em;
     border-radius: 0.3em;
-	position: relative;
-	z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .song-search-result-hidden {
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .song-search-result:hover {
-	border-color: #fff923;
-	cursor: pointer;
+    border-color: #fff923;
+    cursor: pointer;
 }
 
 .song-search-result-active {
@@ -163,7 +165,7 @@
 }
 
 .song-search-result-course::before {
-	content: "";
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -171,12 +173,12 @@
     height: 100%;
     opacity: 0.5;
     z-index: -1;
-	background-size: 4.8em;
-	border-radius: 0.3em;
+    background-size: 4.8em;
+    border-radius: 0.3em;
 }
 
 .song-search-result-stars {
-	bottom: 0;
+    bottom: 0;
     background: rgb(0 0 0 / 47%);
     position: absolute;
     width: 100%;
@@ -186,48 +188,48 @@
 }
 
 .song-search-result-easy {
-	background-color: #D13215;
+    background-color: #D13215;
 }
 
 .song-search-result-easy::before {
-	background-position-x: center;
+    background-position-x: center;
     background-position-y: -0.6em;
 }
 
 .song-search-result-normal {
-	background-color: #799C22;
+    background-color: #799C22;
 }
 
 .song-search-result-normal::before {
-	background-position-x: center;
-	background-position-y: -5.1em;
+    background-position-x: center;
+    background-position-y: -5.1em;
 }
 
 .song-search-result-hard {
-	background-color: #31799B;
+    background-color: #31799B;
 }
 
 .song-search-result-hard::before {
-	background-position-x: center;
-	background-position-y: -9.1em;
+    background-position-x: center;
+    background-position-y: -9.1em;
 }
 
 .song-search-result-oni {
-	background-color: #AF2C7F;
+    background-color: #AF2C7F;
 }
 
 .song-search-result-oni::before {
-	background-position-x: center;
-	background-position-y: -13.1em;
+    background-position-x: center;
+    background-position-y: -13.1em;
 }
 
 .song-search-result-ura {
-	background-color: #604AD5;
+    background-color: #604AD5;
 }
 
 .song-search-result-ura::before {
-	background-position-x: center;
-	background-position-y: -17.2em;
+    background-position-x: center;
+    background-position-y: -17.2em;
 }
 
 .song-search-result-crown {
@@ -246,19 +248,19 @@
 }
 
 .song-search-result-gold {
-	background-position-y: 59%;
+    background-position-y: 59%;
 }
 
 .song-search-result-silver {
-	background-position-y: 29%;
+    background-position-y: 29%;
 }
 
 .song-search-result-noclear {
-	background-position-y: -1%;
+    background-position-y: -1%;
 }
 
 #song-search-tip {
-	font-size: 1em;
+    font-size: 1em;
     margin-top: 1em;
     text-align: center;
     background-repeat: no-repeat;
@@ -274,14 +276,14 @@
     right: -0.5em;
     top: -0.8em;
     font-size: 2em;
-    font-family: TnT;
+    font-family: inherit;
     cursor: pointer;
 }
 
-#song-search-close:hover::before{
+#song-search-close:hover::before {
     -webkit-text-stroke: 0.25em #fff923;
 }
 
 .song-search-tip-error {
-	height: 8em;
+    height: 8em;
 }
