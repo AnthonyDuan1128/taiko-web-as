@@ -56,7 +56,17 @@
 		}
 		this.update()
 	}
+	getFont() {
+		return (typeof strings !== "undefined" && strings.font) ? strings.font : "Meiryo, sans-serif"
+	}
+	getLangId() {
+		return (typeof strings !== "undefined" && strings.id) ? strings.id : "ja"
+	}
 	update() {
+		// Skip update if subtitle hasn't been set yet
+		if (!this.subtitle) {
+			return
+		}
 		var ctx = this.ctx
 		ctx.save()
 
@@ -77,14 +87,17 @@
 			ctx.font = "100px " + this.symbolFont
 		}
 
+		var currentFont = this.getFont()
+		var currentLangId = this.getLangId()
+
 		for (var i = 0; i < this.symbols.length; i++) {
 			ctx.strokeStyle = "#3f0406"
 			ctx.lineWidth = 13.5
 			this.drawSymbol(this.symbols[i], "stroke", 4)
 		}
-		ctx.font = this.bold(strings.font) + "55px " + strings.font
+		ctx.font = this.bold(currentFont) + "55px " + currentFont
 		this.subtitleIterate((letter, x) => {
-			ctx.lineWidth = strings.id === "en" ? 19 : 18.5
+			ctx.lineWidth = currentLangId === "en" ? 19 : 18.5
 			ctx.strokeStyle = "#3f0406"
 			ctx.strokeText(letter, x, 315)
 		})
@@ -130,16 +143,16 @@
 			ctx.fillRect(382, 85, 30, 15)
 			ctx.fillRect(402, 145, 15, 15)
 		} else {
-			ctx.font = this.bold(strings.font) + "55px " + strings.font
+			ctx.font = this.bold(currentFont) + "55px " + currentFont
 		}
 
 		this.subtitleIterate((letter, x) => {
-			ctx.lineWidth = strings.id === "en" ? 19 : 18.5
+			ctx.lineWidth = currentLangId === "en" ? 19 : 18.5
 			ctx.strokeStyle = "#7c361e"
 			ctx.strokeText(letter, x, 305)
 		})
 		this.subtitleIterate((letter, x, i) => {
-			ctx.lineWidth = strings.id === "en" ? 11 : 9.5
+			ctx.lineWidth = currentLangId === "en" ? 11 : 9.5
 			ctx.strokeStyle = this.getSubtitleGradient(i)
 			ctx.fillStyle = "#fff"
 			ctx.strokeText(letter, x, 305)
