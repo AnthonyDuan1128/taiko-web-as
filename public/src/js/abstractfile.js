@@ -53,7 +53,10 @@ class RemoteFile {
 			// Check if already cached (handles re-requests after difficulty selection)
 			if (chunkedLoader.isCached(this.url)) {
 				console.log('[RemoteFile] Using cached audio:', this.name)
-				return Promise.resolve(chunkedLoader.getCached(this.url))
+				// Return a COPY of the cached buffer to prevent detachment issues
+				// (decodeAudioData detaches the buffer after use)
+				var cached = chunkedLoader.getCached(this.url)
+				return Promise.resolve(cached.slice(0))
 			}
 			// Use chunked loading
 			return chunkedLoader.load(this.url)
