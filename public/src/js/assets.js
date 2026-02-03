@@ -2,6 +2,8 @@ var assets = {
 	"js": [
 		"lib/md5.min.js",
 		"lib/fuzzysort.js",
+		"networktest.js",
+		"chunkedloader.js",
 		"loadsong.js",
 		"parseosu.js",
 		"titlescreen.js",

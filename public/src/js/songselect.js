@@ -5,6 +5,13 @@ class SongSelect {
 	init(fromTutorial, fadeIn, touchEnabled, songId, showWarning) {
 		this.touchEnabled = touchEnabled
 
+		// Initialize network speed test for chunked audio loading
+		if (typeof networkTest !== 'undefined' && !networkTest.hasRunTest()) {
+			networkTest.run().then(result => {
+				console.log('[SongSelect] Network test complete:', result.bandwidth.toFixed(1), 'Mbps')
+			})
+		}
+
 		loader.changePage("songselect", false)
 		this.canvas = document.getElementById("song-sel-canvas")
 		this.ctx = this.canvas.getContext("2d")

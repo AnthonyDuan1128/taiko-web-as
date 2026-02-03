@@ -1,151 +1,163 @@
-function readFile(file, arrayBuffer, encoding){
+function readFile(file, arrayBuffer, encoding) {
 	var reader = new FileReader()
 	var promise = pageEvents.load(reader).then(event => event.target.result)
 	reader[arrayBuffer ? "readAsArrayBuffer" : "readAsText"](file, encoding)
 	return promise
 }
-function filePermission(file){
+function filePermission(file) {
 	return file.queryPermission().then(response => {
-		if(response === "granted"){
+		if (response === "granted") {
 			return file
-		}else{
+		} else {
 			return file.requestPermission().then(response => {
-				if(response === "granted"){
+				if (response === "granted") {
 					return file
-				}else{
+				} else {
 					return Promise.reject(strings.accessNotGrantedError)
 				}
 			})
 		}
 	})
 }
-class RemoteFile{
-	constructor(...args){
+class RemoteFile {
+	constructor(...args) {
 		this.init(...args)
 	}
-	init(url){
+	init(url) {
 		this.url = url
-		try{
+		try {
 			this.path = new URL(url).pathname
-		}catch(e){
+		} catch (e) {
 			this.path = url
 		}
-		if(this.path.startsWith("/")){
+		if (this.path.startsWith("/")) {
 			this.path = this.path.slice(1)
 		}
-		if(this.url.startsWith("data:")){
+		if (this.url.startsWith("data:")) {
 			this.name = "datauri"
-			if(this.url.startsWith("data:audio/ogg")){
+			if (this.url.startsWith("data:audio/ogg")) {
 				this.name += ".ogg"
 			}
-		}else{
+		} else {
 			this.name = this.path
 			var index = this.name.lastIndexOf("/")
-			if(index !== -1){
+			if (index !== -1) {
 				this.name = this.name.slice(index + 1)
 			}
 		}
 	}
-	arrayBuffer(){
+	arrayBuffer() {
+		// Use chunked loading for audio files when chunkedLoader is available
+		if (typeof chunkedLoader !== 'undefined' &&
+			(this.name.endsWith('.ogg') || this.name.endsWith('.mp3'))) {
+			// Check if already cached (handles re-requests after difficulty selection)
+			if (chunkedLoader.isCached(this.url)) {
+				console.log('[RemoteFile] Using cached audio:', this.name)
+				return Promise.resolve(chunkedLoader.getCached(this.url))
+			}
+			// Use chunked loading
+			return chunkedLoader.load(this.url)
+		}
+		// Fallback to standard loading
 		return loader.ajax(this.url, request => {
 			request.responseType = "arraybuffer"
 		})
 	}
-	read(encoding){
-		if(encoding){
+	read(encoding) {
+		if (encoding) {
 			return this.blob().then(blob => readFile(blob, false, encoding))
-		}else{
+		} else {
 			return loader.ajax(this.url)
 		}
 	}
-	blob(){
+	blob() {
 		return loader.ajax(this.url, request => {
 			request.responseType = "blob"
 		})
 	}
 }
-class LocalFile{
-	constructor(...args){
+class LocalFile {
+	constructor(...args) {
 		this.init(...args)
 	}
-	init(file, path){
+	init(file, path) {
 		this.file = file
 		this.path = path || file.webkitRelativePath
 		this.url = this.path
 		this.name = file.name
 	}
-	arrayBuffer(){
+	arrayBuffer() {
 		return readFile(this.file, true)
 	}
-	read(encoding){
+	read(encoding) {
 		return readFile(this.file, false, encoding)
 	}
-	blob(){
+	blob() {
 		return Promise.resolve(this.file)
 	}
 }
-class FilesystemFile{
-	constructor(...args){
+class FilesystemFile {
+	constructor(...args) {
 		this.init(...args)
 	}
-	init(file, path){
+	init(file, path) {
 		this.file = file
 		this.path = path
 		this.url = this.path
 		this.name = file.name
 	}
-	arrayBuffer(){
+	arrayBuffer() {
 		return this.blob().then(blob => blob.arrayBuffer())
 	}
-	read(encoding){
+	read(encoding) {
 		return this.blob().then(blob => readFile(blob, false, encoding))
 	}
-	blob(){
+	blob() {
 		return filePermission(this.file).then(file => file.getFile())
 	}
 }
-class GdriveFile{
-	constructor(...args){
+class GdriveFile {
+	constructor(...args) {
 		this.init(...args)
 	}
-	init(fileObj){
+	init(fileObj) {
 		this.path = fileObj.path
 		this.name = fileObj.name
 		this.id = fileObj.id
 		this.url = gpicker.filesUrl + this.id + "?alt=media"
 	}
-	arrayBuffer(){
+	arrayBuffer() {
 		return gpicker.downloadFile(this.id, "arraybuffer")
 	}
-	read(encoding){
-		if(encoding){
+	read(encoding) {
+		if (encoding) {
 			return this.blob().then(blob => readFile(blob, false, encoding))
-		}else{
+		} else {
 			return gpicker.downloadFile(this.id)
 		}
 	}
-	blob(){
+	blob() {
 		return gpicker.downloadFile(this.id, "blob")
 	}
 }
-class CachedFile{
-	constructor(...args){
+class CachedFile {
+	constructor(...args) {
 		this.init(...args)
 	}
-	init(contents, oldFile){
+	init(contents, oldFile) {
 		this.contents = contents
 		this.oldFile = oldFile
 		this.path = oldFile.path
 		this.name = oldFile.name
 		this.url = oldFile.url
 	}
-	arrayBuffer(){
+	arrayBuffer() {
 		return Promise.resolve(this.contents)
 	}
-	read(encoding){
+	read(encoding) {
 		return this.arrayBuffer()
 	}
-	blob(){
+	blob() {
 		return this.arrayBuffer()
 	}
 }
