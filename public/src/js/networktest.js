@@ -48,12 +48,47 @@ class NetworkTest {
             return this.testPromise
         }
 
+        // Check if user is on mobile data - skip test to save data
+        if (this._isCellularConnection()) {
+            console.log('[NetworkTest] Cellular connection detected, skipping test to save data')
+            this.result = {
+                bandwidth: 10,
+                recommendedChunks: 4,
+                timestamp: Date.now(),
+                skipped: 'cellular',
+                connectionType: this._getConnectionType()
+            }
+            return Promise.resolve(this.result)
+        }
+
         // Determine test file URL - use a known asset file
         // We'll use the loader.gif or similar asset that's reasonably sized
         this.testFileUrl = (gameConfig.assets_baseurl || '/assets/') + 'img/dancing-don.gif'
 
         this.testPromise = this._runTest()
         return this.testPromise
+    }
+
+    /**
+     * Check if user is on a cellular/mobile data connection
+     */
+    _isCellularConnection() {
+        var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+        if (!connection) {
+            return false // Cannot detect, assume WiFi
+        }
+        var type = connection.type || connection.effectiveType
+        // Cellular connection types
+        return type === 'cellular' || type === '2g' || type === '3g' || type === '4g' || type === 'slow-2g'
+    }
+
+    /**
+     * Get connection type for logging
+     */
+    _getConnectionType() {
+        var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+        if (!connection) return 'unknown'
+        return connection.type || connection.effectiveType || 'unknown'
     }
 
     _runTest() {
