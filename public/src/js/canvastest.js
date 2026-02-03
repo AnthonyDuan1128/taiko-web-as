@@ -107,7 +107,8 @@ class CanvasTest {
 				var comboX = 100
 				var comboY = 100
 				var fontSize = 120
-				this.ctx.font = "normal " + fontSize + "px " + strings.font
+				var fontFamily = (typeof strings !== "undefined" && strings.font) ? strings.font : "TnT, Meiryo, sans-serif"
+				this.ctx.font = "normal " + fontSize + "px " + fontFamily
 				this.ctx.textAlign = "center"
 				this.ctx.strokeStyle = "#000"
 				this.ctx.lineWidth = fontSize / 10
