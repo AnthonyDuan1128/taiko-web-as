@@ -17,9 +17,9 @@ var translations = {
 	font: {
 		ja: "TnT, Meiryo, sans-serif",
 		en: "TnT, Meiryo, sans-serif",
-		cn: "Microsoft YaHei, sans-serif",
-		tw: "Microsoft YaHei, sans-serif",
-		ko: "Microsoft YaHei, sans-serif"
+		cn: "HK, Microsoft YaHei, sans-serif",
+		tw: "HK, Microsoft YaHei, sans-serif",
+		ko: "HK, Microsoft YaHei, sans-serif"
 	},
 	intl: {
 		ja: "ja",

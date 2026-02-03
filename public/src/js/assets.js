@@ -138,7 +138,9 @@ var assets = {
 	],
 	"fonts": {
 		"Kozuka": "Kozuka.otf",
-		"TnT": "TnT.ttf"
+		"TnT": "TnT.ttf",
+		"GW": "GW.ttf",
+		"HK": "HK.ttf"
 	},
 	"views": [
 		"game.html",
