@@ -11,24 +11,24 @@ class NetworkTest {
     }
 
     /**
-     * Check if a test has already been run this session
+     * Check if a test has already been run (persists across sessions)
      */
     hasRunTest() {
         if (this.result) return true
 
-        // Check sessionStorage for cached result
+        // Check localStorage for cached result (persists across sessions)
         try {
-            var cached = sessionStorage.getItem('networkTestResult')
+            var cached = localStorage.getItem('networkTestResult')
             if (cached) {
                 this.result = JSON.parse(cached)
-                // Expire after 30 minutes
-                if (Date.now() - this.result.timestamp < 30 * 60 * 1000) {
+                // Expire after 7 days
+                if (Date.now() - this.result.timestamp < 7 * 24 * 60 * 60 * 1000) {
                     return true
                 }
                 this.result = null
             }
         } catch (e) {
-            // sessionStorage not available
+            // localStorage not available
         }
         return false
     }
@@ -83,11 +83,11 @@ class NetworkTest {
                 timestamp: Date.now()
             }
 
-            // Cache result
+            // Cache result in localStorage (persists across sessions)
             try {
-                sessionStorage.setItem('networkTestResult', JSON.stringify(this.result))
+                localStorage.setItem('networkTestResult', JSON.stringify(this.result))
             } catch (e) {
-                // sessionStorage not available
+                // localStorage not available
             }
 
             console.log('[NetworkTest] Bandwidth:', bandwidth.toFixed(2), 'Mbps, Recommended chunks:', this.result.recommendedChunks)
