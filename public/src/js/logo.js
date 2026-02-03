@@ -6,7 +6,8 @@
 		this.canvas = document.getElementById("logo")
 		this.ctx = this.canvas.getContext("2d")
 		this.pathSvg = failedTests.indexOf("Path2D SVG") === -1 && vectors.logo1
-		this.symbolFont = "TnT, " + strings.font
+		var defaultFont = (typeof strings !== "undefined" && strings.font) ? strings.font : "Meiryo, sans-serif"
+		this.symbolFont = "TnT, " + defaultFont
 		this.symbols = [{
 			x: 315, y: 18, xAlt: 15, scale: true, text: "ブ",
 			path: new Path2D(vectors.logo5)
