@@ -61,6 +61,18 @@ class NetworkTest {
             return Promise.resolve(this.result)
         }
 
+        // Check if user is in China region - skip test due to Cloudflare connectivity issues
+        if (this._isChinaRegion()) {
+            console.log('[NetworkTest] China region detected, skipping Cloudflare speed test')
+            this.result = {
+                bandwidth: 10,
+                recommendedChunks: 4,
+                timestamp: Date.now(),
+                skipped: 'china_region'
+            }
+            return Promise.resolve(this.result)
+        }
+
         // Determine test file URL - use a known asset file
         // We'll use the loader.gif or similar asset that's reasonably sized
         this.testFileUrl = (gameConfig.assets_baseurl || '/assets/') + 'img/dancing-don.gif'
@@ -89,6 +101,28 @@ class NetworkTest {
         var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
         if (!connection) return 'unknown'
         return connection.type || connection.effectiveType || 'unknown'
+    }
+
+    /**
+     * Check if user is likely in China region based on timezone and language
+     * Used to skip Cloudflare-based speed test due to connectivity issues
+     */
+    _isChinaRegion() {
+        try {
+            // Check timezone
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+            var chinaTimezones = ['Asia/Shanghai', 'Asia/Chongqing', 'Asia/Harbin', 'Asia/Urumqi', 'Asia/Hong_Kong', 'Asia/Macau']
+            if (chinaTimezones.indexOf(timezone) !== -1) {
+                // Further verify with language to avoid false positives for other UTC+8 regions
+                var lang = navigator.language || navigator.userLanguage || ''
+                if (lang.toLowerCase().startsWith('zh')) {
+                    return true
+                }
+            }
+        } catch (e) {
+            // Timezone detection not supported
+        }
+        return false
     }
 
     _runTest() {
