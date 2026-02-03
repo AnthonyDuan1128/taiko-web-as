@@ -87,7 +87,7 @@
 		} else {
 			this.beatInterval = this.controller.parsedSongData.beatInfo.beatInterval
 		}
-		this.font = strings.font
+		this.font = (typeof strings !== "undefined" && strings.font) ? strings.font : "Meiryo, sans-serif"
 
 		this.draw = new CanvasDraw(noSmoothing)
 		this.assets = new ViewAssets(this)
@@ -1826,7 +1826,7 @@
 						ctx: ctx,
 						text: i.toString(),
 						fontSize: fontSize,
-						fontFamily: strings.font,
+						fontFamily: (typeof strings !== "undefined" && strings.font) ? strings.font : "TnT, Meiryo, sans-serif",
 						x: textX,
 						y: textY
 					}, [
