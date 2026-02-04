@@ -330,7 +330,7 @@ class SongSelect {
 
 
 		this.difficulty = [strings.easy, strings.normal, strings.hard, strings.oni]
-		this.difficultyId = ["easy", "normal", "hard", "oni", "ura"]
+		this.difficultyId = ["easy", "normal", "hard", "oni", "ura", "dan"]
 
 		this.sessionText = {
 			"sessionstart": strings.sessionStart,

@@ -165,6 +165,83 @@ var translations = {
 		tw: "魔王",
 		ko: "귀신"
 	},
+	dan: {
+		ja: "段位道場",
+		en: "Dan-i Dojo",
+		cn: "段位道场",
+		tw: "段位道場",
+		ko: "단위 도장"
+	},
+	danChallenge: {
+		ja: "挑戦する",
+		en: "Challenge",
+		cn: "挑战",
+		tw: "挑戰",
+		ko: "도전"
+	},
+	danPass: {
+		ja: "合格",
+		en: "PASS",
+		cn: "合格",
+		tw: "合格",
+		ko: "합격"
+	},
+	danGoldPass: {
+		ja: "金合格",
+		en: "GOLD PASS",
+		cn: "金合格",
+		tw: "金合格",
+		ko: "금합격"
+	},
+	danFail: {
+		ja: "不合格",
+		en: "FAIL",
+		cn: "不合格",
+		tw: "不合格",
+		ko: "불합격"
+	},
+	danExamGood: {
+		ja: "良の数",
+		en: "Good Count",
+		cn: "良数",
+		tw: "良數",
+		ko: "얼쑤 수"
+	},
+	danExamOk: {
+		ja: "可の数",
+		en: "OK Count",
+		cn: "可数",
+		tw: "可數",
+		ko: "좋다 수"
+	},
+	danExamBad: {
+		ja: "不可の数",
+		en: "Bad Count",
+		cn: "不可数",
+		tw: "不可數",
+		ko: "에구 수"
+	},
+	danExamDrumroll: {
+		ja: "連打数",
+		en: "Drumroll",
+		cn: "连打数",
+		tw: "連打數",
+		ko: "연타 수"
+	},
+	danExamCombo: {
+		ja: "コンボ数",
+		en: "Combo",
+		cn: "连段数",
+		tw: "連段數",
+		ko: "콤보 수"
+	},
+	danExamScore: {
+		ja: "スコア",
+		en: "Score",
+		cn: "得分",
+		tw: "得分",
+		ko: "점수"
+	},
 	songBranch: {
 		ja: "譜面分岐あり",
 		en: "Diverge Notes",
