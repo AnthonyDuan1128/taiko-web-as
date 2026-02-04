@@ -35,14 +35,16 @@ class ChunkedLoader {
         if (this.cache.has(cacheKey)) {
             var cached = this.cache.get(cacheKey)
             if (onProgress) onProgress(cached.byteLength, cached.byteLength)
-            return Promise.resolve(cached)
+            // Always return a COPY to prevent detachment by decodeAudioData
+            return Promise.resolve(cached.slice(0))
         }
 
         // Return existing pending request (deduplication)
         if (this.pending.has(cacheKey)) {
             return this.pending.get(cacheKey).then(buffer => {
                 if (onProgress) onProgress(buffer.byteLength, buffer.byteLength)
-                return buffer
+                // Always return a COPY
+                return buffer.slice(0)
             })
         }
 
@@ -55,11 +57,12 @@ class ChunkedLoader {
         // Start the load and store the promise
         var loadPromise = this._loadWithChunks(url, numChunks, onProgress)
             .then(buffer => {
-                // Cache the result
+                // Cache the result (master copy)
                 this.cache.set(cacheKey, buffer)
                 // Remove from pending
                 this.pending.delete(cacheKey)
-                return buffer
+                // Return a COPY
+                return buffer.slice(0)
             })
             .catch(error => {
                 // Remove from pending on error
@@ -271,7 +274,8 @@ class ChunkedLoader {
      * Get cached buffer without triggering a load
      */
     getCached(url) {
-        return this.cache.get(this._normalizeUrl(url))
+        var cached = this.cache.get(this._normalizeUrl(url))
+        return cached ? cached.slice(0) : undefined
     }
 }
 
