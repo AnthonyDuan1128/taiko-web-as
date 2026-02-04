@@ -66,7 +66,8 @@ class Scoresheet {
 			"normal": 1,
 			"hard": 2,
 			"oni": 3,
-			"ura": 4
+			"ura": 4,
+			"dan": 3  // Dan uses oni difficulty visuals
 		}
 
 		this.scoreSaved = false
